@@ -1,8 +1,6 @@
 # Peerdock
 Software sharing with XML repositories
 
-======
-
 Compile with following libraries :
 - mslink
 - common-io
