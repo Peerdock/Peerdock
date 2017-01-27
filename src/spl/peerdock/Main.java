@@ -72,6 +72,10 @@ public class Main {
                         Package.source(args[1]);
                     }
                     break;
+                case "credit":
+                    header();
+                    credit();
+                    break;
                 case "dev":
                     if(args.length == 1){
                         System.out.println("<+> Please type a dev-cmd.");
@@ -117,5 +121,13 @@ public class Main {
         System.out.println("| source     |   URL XML source   | add package list    |");
         System.out.println("| list       |   - no arguments   | list installed pkgs |");
         System.out.println("|------------|--------------------|---------------------|");
+    }
+    private static void credit(){
+        System.out.println("Peerdock is a software developed by Victor Lourme");
+        System.out.println("Please take care of sources and use trusted repositories.");
+        System.out.println("We are not responsible of malwares, hacks or others viruses.\n");
+        System.out.println("Website : https://www.peerdock.co");
+        System.out.println("Trusted sources : https://packages.peerdock.co\n");
+        System.out.println("Source, repository means a list of packages in XML.");
     }
 }
