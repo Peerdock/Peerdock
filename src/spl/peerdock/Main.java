@@ -98,15 +98,14 @@ public class Main {
     private static void header() throws IOException, InterruptedException{
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         System.out.println("");
-        System.out.println(" 01010101 01010101 01010101 01010101 01010101    0101010101 0101010101 01   01");
-        System.out.println(" 01    01 01       01       01    01 01      01  01      01 01         01   01");
-        System.out.println(" 01    01 01       01       01    01 01       01 01      01 01         01  01");
-        System.out.println(" 01010101 0101     0101     01010101 01       01 01      01 01         0101");
-        System.out.println(" 01       0101     0101     01   01  01       01 01      01 01         0101");
-        System.out.println(" 01       01       01       01    01 01       01 01      01 01         01  01");
-        System.out.println(" 01       01       01       01    01 01      01  01      01 01         01   01");
-        System.out.println(" 01       01010101 01010101 01    01 01010101    0101010101 0101010101 01   01");
-        System.out.println("");
+        System.out.println("  /$$$$$$$                                     /$$                     /$$");      
+        System.out.println(" | $$__  $$                                   | $$                    | $$      ";
+        System.out.println(" | $$  \ $$ /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$   /$$$$$$$| $$   /$$");
+        System.out.println(" | $$$$$$$//$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/| $$  /$$/");
+        System.out.println(" | $$____/| $$$$$$$$| $$$$$$$$| $$  \__/| $$  | $$| $$  \ $$| $$      | $$$$$$/ ");
+        System.out.println(" | $$     | $$_____/| $$_____/| $$      | $$  | $$| $$  | $$| $$      | $$_  $$ ");
+        System.out.println(" | $$     |  $$$$$$$|  $$$$$$$| $$      |  $$$$$$$|  $$$$$$/|  $$$$$$$| $$ \  $$");
+        System.out.println(" |__/      \_______/ \_______/|__/       \_______/ \______/  \_______/|__/  \__/\n");
     }
 
     private static void help(){
