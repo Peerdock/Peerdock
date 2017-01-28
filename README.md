@@ -14,5 +14,5 @@ Compile with following libraries :
 
 =======
 
-`dev` branch is for fast edits.
+`dev` branch is for fast and untested edits.<br>
 So don't download version from here. Perhaps you can clone or contribute to this !
