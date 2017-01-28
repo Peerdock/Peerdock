@@ -10,6 +10,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
+import java.util.regex.*;
 
 class Package {
     public static void list(){
@@ -141,7 +142,13 @@ class Package {
             result = result + inputLine + "\n" ;
         }
 
-        if(StringUtils.contains(result, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>")){
+        Pattern pattern = Pattern.compile(result);
+        Matcher matcher = pattern.matcher("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        Boolean m1 = matcher.matches();
+        Matcher matcher2 = pattern.matcher("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+        Boolean m2 = matcher.matches();
+        
+        if(m1 || m2){
             System.out.println("<+> Saving package list file...");
             save(result);
             System.out.println("<+> Saved package list file !");

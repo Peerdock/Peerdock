@@ -11,3 +11,8 @@ Compile with following libraries :
 =======
 
 [Peerdock Website](https://peerdock.co)
+
+=======
+
+`dev` branch is for fast and untested edits.<br>
+So don't download version from here. Perhaps you can clone or contribute to this !
