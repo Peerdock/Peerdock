@@ -57,6 +57,8 @@ class Installer {
                     }
                 }
 
+                SecureConnection.TrustAll();
+
                 try {
                     URL website = new URL(url);
                     ReadableByteChannel rbc = Channels.newChannel(website.openStream());
@@ -145,6 +147,7 @@ class Installer {
 
         download.start();
         animation.start();
+
         try {
             download.join();
             animation.join();

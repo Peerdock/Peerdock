@@ -6,6 +6,10 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -130,29 +134,9 @@ class Package {
         System.out.println("<+> Fetching package list");
         System.out.println(" |> URL : " + arg);
         String result = "";
-        
-        TrustManager[] trustAllCerts = new TrustManager[]{
-            new X509TrustManager() {
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
-                public void checkClientTrusted(
-                    java.security.cert.X509Certificate[] certs, String authType) {
-                }
-                public void checkServerTrusted(
-                    java.security.cert.X509Certificate[] certs, String authType) {
-                }
-            }
-        };
 
-        // Activate the new trust manager
-        try {
-            SSLContext sc = SSLContext.getInstance("SSL");
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-        } catch (Exception e) {
-            System.out.println("<!> Error: " + e.getMessage());
-        }
+        SecureConnection.TrustAll();
+
 
         URL xml = new URL(arg);
         URLConnection yc = xml.openConnection();
@@ -164,14 +148,8 @@ class Package {
         while ((inputLine = in.readLine()) != null) {
             result = result + inputLine + "\n" ;
         }
-
-        Pattern pattern = Pattern.compile(result);
-        Matcher matcher = pattern.matcher("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        Boolean m1 = matcher.matches();
-        Matcher matcher2 = pattern.matcher("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-        Boolean m2 = matcher.matches();
         
-        if(m1 || m2){
+        if(StringUtils.contains(result, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>")){
             System.out.println("<+> Saving package list file...");
             save(result);
             System.out.println("<+> Saved package list file !");
