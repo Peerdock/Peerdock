@@ -76,6 +76,10 @@ public class Main {
                     header();
                     credit();
                     break;
+                case "slist":
+                    header();
+                    Package.slist();
+                    break;
                 case "dev":
                     if(args.length == 1){
                         System.out.println("<+> Please type a dev-cmd.");
@@ -118,6 +122,8 @@ public class Main {
         System.out.println("| uninstall  |   - no arguments   | delete Peerdock dir |");
         System.out.println("| source     |   URL XML source   | add package list    |");
         System.out.println("| list       |   - no arguments   | list installed pkgs |");
+        System.out.println("| slist      |   - no arguments   | list available pkgs |");
+        System.out.println("| credit     |   - no arguments   | Peerdock credits    |");
         System.out.println("|------------|--------------------|---------------------|");
     }
     private static void credit(){

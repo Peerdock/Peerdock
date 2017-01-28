@@ -3,6 +3,7 @@ package spl.peerdock;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
@@ -13,6 +14,7 @@ import javax.net.ssl.X509TrustManager;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.regex.*;
 
@@ -29,13 +31,29 @@ class Package {
         if (directories != null) {
             for(int i = 0; i <= directories.length; i++){
                 try {
-                    System.out.println(" |> Package : " + directories[i]);
+                    if(!directories[i].equalsIgnoreCase("sources")){
+                        System.out.println(" |> Package : " + directories[i]);
+                    }
                 } catch (ArrayIndexOutOfBoundsException e){
-                    System.out.println("<!> Error : " + e.getMessage());
                 }
             }
         }
     }
+
+    public static void slist() throws DocumentException{
+        File xmlPath = new File("/Peerdock/Sources/spkg-peerdock.xml");
+        SAXReader xmlReader = new SAXReader();
+        Document doc = xmlReader.read(xmlPath);
+
+        System.out.println("<+> Available packages...");
+
+        Element pkg = doc.getRootElement();
+        for ( Iterator i = pkg.elementIterator(); i.hasNext(); ) {
+            Element element = (Element) i.next();
+            System.out.println(" |> " + element.getName().toString() + " - " + element.element("version").getData().toString());
+        }
+    }
+
     private static void delete(File file) throws Exception{
         if(file.isDirectory()){
 
@@ -77,7 +95,7 @@ class Package {
     static void update() throws Exception {
         System.out.println("<+> Retrieving update source URL... ");
 
-        File xmlPath = new File("/Peerdock/source.xml");
+        File xmlPath = new File("/Peerdock/Sources/spkg-peerdock.xml");
         SAXReader xmlReader = new SAXReader();
         Document doc = xmlReader.read(xmlPath);
 
