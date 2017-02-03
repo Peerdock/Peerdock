@@ -1,9 +1,19 @@
 package spl.peerdock;
 
 import java.io.*;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+
+    static boolean is64bit;
+
+    public static void main(String args[]) throws Exception {
+        if (System.getProperty("os.name").contains("Windows")) {
+            is64bit = (System.getenv("ProgramFiles(x86)") != null);
+        } else {
+            is64bit = (System.getProperty("os.arch").indexOf("64") != -1);
+        }
+
         File f = new File("/Peerdock/");
         if(!f.exists()){
             Boolean rs = f.mkdir();
@@ -22,80 +32,69 @@ public class Main {
             }
         }
 
-        if(args.length == 0){
-            header();
-            System.out.println("<+> Please type correct args.");
-        } else {
-            switch (args[0]) {
-                default:
-                    header();
-                    System.out.println("<+> Please type correct args.");
-                    break;
-                case "help":
-                    header();
-                    help();
-                    break;
-                case "update":
-                    header();
-                    Package.update();
-                    break;
-                case "list":
-                    header();
-                    Package.list();
-                    break;
-                case "install":
-                    header();
-                    if(args.length == 1){
-                        System.out.println("<+> Please type a package name.");
-                    } else {
-                        Installer installation = new Installer();
-                        installation.install(args);
-                    }
-                    break;
-                case "remove":
-                    header();
-                    if(args.length == 1){
-                        System.out.println("<+> Please type a package name.");
-                    } else {
-                        Package.remove(args);
-                    }
-                    break;
-                case "uninstall":
-                    header();
-                    Package.reset();
-                    break;
-                case "source":
-                    header();
-                    if(args.length == 1){
-                        System.out.println("<+> Please type a URL source.");
-                    } else {
-                        Package.source(args[1]);
-                    }
-                    break;
-                case "credit":
-                    header();
-                    credit();
-                    break;
-                case "slist":
-                    header();
-                    Package.slist();
-                    break;
-                case "dev":
-                    if(args.length == 1){
-                        System.out.println("<+> Please type a dev-cmd.");
-                    } else {
-                        switch(args[1]){
-                            case "search":
-                                if(args.length == 2) {
-                                    System.out.println("false");
-                                } else {
-                                    System.out.println(Developers.search(args[2]));
-                                }
-                                break;
-                        }
-                    }
-                    break;
-            }
+        header();
+        Scanner in = new Scanner(System.in);
+        System.out.println("--> Welcome in Peerdock 17.3\n");
+
+        System.out.println("═╗ 1. Install package");
+        System.out.println(" ║ 2. Remove package");
+        System.out.println(" ║ 3. Replace actual source");
+        System.out.println(" ║ 4. Update actual source");
+        System.out.println(" ║ 5. List installed package(s)");
+        System.out.println(" ║ 6. List available package(s) in actual source");
+        System.out.println(" ║ 7. Exit program");
+        System.out.println("═╝ 8. Show credits\n");
+
+        System.out.print("--> Select a option : ");
+        int option = in.nextInt();
+
+        switch (option) {
+            default:
+                header();
+                System.out.println("--> Please type a correct option (between 1 and 8)");
+                break;
+            case 4:
+                header();
+                Package.update();
+                break;
+            case 5:
+                header();
+                Package.list();
+                break;
+            case 1:
+                header();
+                System.out.print("--> Type package to install : ");
+                String i = in.next();
+                header();
+                Installer installation = new Installer();
+                installation.install(i);
+                break;
+            case 2:
+                header();
+                System.out.print("--> Type package to remove : ");
+                String r = in.next();
+                header();
+                Package.remove(r);
+                break;
+            case 3:
+                header();
+                System.out.println("--> Type your source : ");
+                System.out.print("--> ");
+                String so = in.next();
+                header();
+                Package.source(so);
+                break;
+            case 7:
+                System.exit(1);
+                break;
+            case 8:
+                header();
+                credit();
+                break;
+            case 6:
+                header();
+                Package.slist();
+                break;
         }
     }
 

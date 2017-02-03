@@ -104,24 +104,21 @@ class Package {
 
         source(update);
     }
-    static boolean remove(String pkgs[]) throws Exception {
+    static boolean remove(String ipkg) throws Exception {
         Scanner in = new Scanner(System.in);
 
-        for (int i = 1; i < pkgs.length; i++) {
-            File pkg = new File("/Peerdock/" + pkgs[i]);
-            if (!pkg.exists()) {
-                System.out.println("<!> Error ! Can't find " + pkgs[i]);
-                System.exit(1);
-            }
+
+        File pkg = new File("/Peerdock/" + ipkg);
+        if (!pkg.exists()) {
+            System.out.println("<!> Error ! Can't find " + ipkg);
+            System.exit(1);
         }
 
         System.out.print("<+> Package found ! Remove [Y/N] +> ");
 
         if(in.next().equalsIgnoreCase("y")){
-            for (int i = 1; i < pkgs.length; i++) {
-                delete(new File("/Peerdock/" + pkgs[i]));
-                System.out.println("<+> " + pkgs[i] + " was deleted.");
-            }
+                delete(new File("/Peerdock/" + ipkg));
+                System.out.println("<+> " + ipkg + " was deleted.");
         } else {
             System.out.println("<!> Package delete aborted.");
         }

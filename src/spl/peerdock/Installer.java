@@ -156,7 +156,7 @@ class Installer {
         }
     }
 
-    void install(String pkgs[]) throws Exception{
+    void install(String ipkg) throws Exception{
         File xmlPath = new File("/Peerdock/Sources/spkg-peerdock.xml");
         if(!xmlPath.exists()){
             System.out.println("<!> Error ! Please provide a source.xml");
@@ -174,15 +174,13 @@ class Installer {
         }
 
         // Testing if all packages exists...
-        for (int i = 1; i < pkgs.length; i++) {
-            if (pkg.element(pkgs[i]) == null) {
-                System.out.println("<!> Error ! Can't find " + pkgs[i]);
-                System.exit(1);
-            }
+        if (pkg.element(ipkg) == null) {
+            System.out.println("<!> Error ! Can't find " + ipkg);
+            System.exit(1);
         }
 
         // Checking errors
-        System.out.print("<+> All packages exists ! Install [Y/N] +> ");
+        System.out.print("<+> Package exists ! Install [Y/N] +> ");
         Scanner in = new Scanner(System.in);
         if (in.next().equalsIgnoreCase("y")) {
             cont = true;
@@ -192,27 +190,53 @@ class Installer {
 
         // If all good, install
         if(cont) {
-            for (int i = 1; i < pkgs.length; i++) {
-                if (pkg.element(pkgs[i]) != null) {
-                    Installer.error = false;
-                    Installer.pkg = pkgs[i];
-                    String version = pkg.element(pkgs[i]).element("version").getText();
-                    String url = pkg.element(pkgs[i]).element("url").getText();
-                    String unzip = pkg.element(pkgs[i]).element("unzip").getText();
-                    URL hp = null;
-                    try {
-                        hp = new URL(url);
-                    } catch (Exception e) {
-                        System.out.println("<!> Error : " + e.getMessage());
-                    }
-                    pkgz = ((Installer.getFileSize(hp) / 1000) / 1000);
-                    System.out.println("\n<+> Installing " + pkgs[i]);
-                    System.out.println(" |> Version : " + version);
-                    System.out.println(" |> Size : " + pkgz + "Mb");
-                    System.out.println(" |> Source : " + url);
-                    System.out.println(" |> ZipPKG : " + unzip);
-                    download(url, pkgs[i], unzip);
+            if (pkg.element(ipkg) != null) {
+                Installer.error = false;
+                Installer.pkg = ipkg;
+                String version = pkg.element(ipkg).element("version").getText();
+                String arch64 = pkg.element(ipkg).element("arch64").getText();
+                String arch32 = pkg.element(ipkg).element("arch32").getText();
+                String note = null;
+                String unzip = pkg.element(ipkg).element("unzip").getText();
+                String url = null;
+                if(Main.is64bit){
+                    url = arch64;
+                } else {
+                    url = arch32;
                 }
+                try {
+                    if (pkg.element(ipkg).element("note").getText() != null) {
+                        note = pkg.element(ipkg).element("note").getText();
+                    }
+                } catch (NullPointerException e){
+                }
+                URL hp = null;
+                try {
+                    hp = new URL(url);
+                } catch (Exception e) {
+                    System.out.println("<!> Error : " + e.getMessage());
+                }
+
+                String tr_url = url;
+                if(url.length() >= 60){
+                    tr_url = url.substring(0, 60) + "...";
+                }
+
+                pkgz = ((Installer.getFileSize(hp) / 1000) / 1000);
+                System.out.println("\n<+> Installing " + ipkg);
+                System.out.println(" |> Version : " + version);
+                System.out.println(" |> Size : " + pkgz + "Mb");
+                System.out.println(" |> Source : " + tr_url);
+                if(note != null) {
+                    System.out.println(" |> Note : " + note);
+                }
+                if(Main.is64bit){
+                    System.out.println(" |> Arch : 64-bit");
+                } else {
+                    System.out.println(" |> Arch : 32-bit");
+                }
+                System.out.println(" |> Unpack : " + unzip);
+                download(url, ipkg, unzip);
             }
         } else {
             System.exit(1);
