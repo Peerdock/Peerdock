@@ -8,6 +8,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import java.awt.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -196,6 +197,7 @@ class Installer {
                 String version = pkg.element(ipkg).element("version").getText();
                 String arch64 = pkg.element(ipkg).element("arch64").getText();
                 String arch32 = pkg.element(ipkg).element("arch32").getText();
+                String website = null;
                 String note = null;
                 String unzip = pkg.element(ipkg).element("unzip").getText();
                 String url = null;
@@ -207,6 +209,9 @@ class Installer {
                 try {
                     if (pkg.element(ipkg).element("note").getText() != null) {
                         note = pkg.element(ipkg).element("note").getText();
+                    }
+                    if (pkg.element(ipkg).element("website").getText() != null) {
+                        website = pkg.element(ipkg).element("website").getText();
                     }
                 } catch (NullPointerException e){
                 }
@@ -237,6 +242,12 @@ class Installer {
                 }
                 System.out.println(" |> Unpack : " + unzip);
                 download(url, ipkg, unzip);
+                if(website != null) {
+                    System.out.print("<+> Visit provider website ? [Y/N] +> ");
+                    if (in.next().equalsIgnoreCase("y")) {
+                        Desktop.getDesktop().browse(new URL(website).toURI());
+                    }
+                }
             }
         } else {
             System.exit(1);

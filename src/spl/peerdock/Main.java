@@ -6,6 +6,8 @@ import java.util.Scanner;
 public class Main {
 
     static boolean is64bit;
+    static String version = "17.4";
+    static String update_url = "https://www.peerdock.co/update";
 
     public static void main(String args[]) throws Exception {
         if (System.getProperty("os.name").contains("Windows")) {
@@ -32,18 +34,60 @@ public class Main {
             }
         }
 
+        menu();
+    }
+
+    public static void header() throws Exception{
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        System.out.println("");
+        System.out.println("   ▄███████▄    ▄████████    ▄████████    ▄████████  ███████▄   ▄██████▄   ▄████████    ▄█   ▄█▄ \n" +
+                "   ███    ███   ███    ███   ███    ███   ███    ███ ███   ▀███ ███    ███ ███    ███   ███ ▄███▀ \n" +
+                "   ███    ███   ███    █▀    ███    █▀    ███    ███ ███    ███ ███    ███ ███    █▀    ███ ██▀   \n" +
+                "   ███    ███  ▄███▄▄▄      ▄███▄▄▄      ▄███▄▄▄▄██▀ ███    ███ ███    ███ ███         ▄█████▀    \n" +
+                " ▀█████████▀  ▀▀███▀▀▀     ▀▀███▀▀▀     ▀▀███▀▀▀▀▀   ███    ███ ███    ███ ███        ▀▀█████▄    \n" +
+                "   ███          ███    █▄    ███    █▄  ▀███████████ ███    ███ ███    ███ ███    █▄    ███ ██▄   \n" +
+                "   ███          ███    ███   ███    ███   ███    ███ ███   ▄███ ███    ███ ███    ███   ███ ▀███▄ \n" +
+                "  ▄████▀        ██████████   ██████████   ███    ███ ████████▀   ▀██████▀  ████████▀    ███   ▀█▀ \n" +
+                "                                          ███    ███                                    ▀         "
+        );
+    }
+
+    private static void credit(){
+        System.out.println("\nPeerdock is a software developed by Victor Lourme");
+        System.out.println("Please take care of sources and use trusted repositories.");
+        System.out.println("We are not responsible of malwares, hacks or others viruses.\n");
+        System.out.println("Website : https://www.peerdock.co");
+        System.out.println("Trusted sources : https://packages.peerdock.co\n");
+        System.out.println("Source, repository means a list of packages in XML.");
+    }
+
+    public static void next()
+    {
+        System.out.println("\n--> Press [enter] to continue...");
+        try
+        {
+            System.in.read();
+            Main.menu();
+        } catch (Exception e){
+
+        }
+    }
+
+    public static void menu() throws Exception{
         header();
         Scanner in = new Scanner(System.in);
-        System.out.println("--> Welcome in Peerdock 17.3\n");
+        System.out.println("--> Welcome in Peerdock " + version + "\n");
 
         System.out.println("═╗ 1. Install package");
         System.out.println(" ║ 2. Remove package");
         System.out.println(" ║ 3. Replace actual source");
         System.out.println(" ║ 4. Update actual source");
-        System.out.println(" ║ 5. List installed package(s)");
-        System.out.println(" ║ 6. List available package(s) in actual source");
-        System.out.println(" ║ 7. Exit program");
-        System.out.println("═╝ 8. Show credits\n");
+        System.out.println(" ║ 5. List sources available");
+        System.out.println(" ║ 6. List installed package(s)");
+        System.out.println(" ║ 7. List available package(s) in actual source");
+        System.out.println(" ║ 8. Show credits");
+        System.out.println(" ║ 9. Check for Peerdock update");
+        System.out.println("═╝ 10. Exit program\n");
 
         System.out.print("--> Select a option : ");
         int option = in.nextInt();
@@ -52,14 +96,26 @@ public class Main {
             default:
                 header();
                 System.out.println("--> Please type a correct option (between 1 and 8)");
+                next();
+                menu();
                 break;
             case 4:
                 header();
                 Package.update();
+                next();
+                menu();
+                break;
+            case 6:
+                header();
+                Package.list();
+                next();
+                menu();
                 break;
             case 5:
                 header();
-                Package.list();
+                Package.pkgls();
+                next();
+                menu();
                 break;
             case 1:
                 header();
@@ -68,6 +124,8 @@ public class Main {
                 header();
                 Installer installation = new Installer();
                 installation.install(i);
+                next();
+                menu();
                 break;
             case 2:
                 header();
@@ -75,6 +133,8 @@ public class Main {
                 String r = in.next();
                 header();
                 Package.remove(r);
+                next();
+                menu();
                 break;
             case 3:
                 header();
@@ -83,54 +143,30 @@ public class Main {
                 String so = in.next();
                 header();
                 Package.source(so);
+                next();
+                menu();
                 break;
-            case 7:
+            case 10:
                 System.exit(1);
                 break;
             case 8:
                 header();
                 credit();
+                next();
+                menu();
                 break;
-            case 6:
+            case 7:
                 header();
                 Package.slist();
+                next();
+                menu();
+                break;
+            case 9:
+                header();
+                Package.checkupdate();
+                next();
+                menu();
                 break;
         }
-    }
-
-    private static void header() throws IOException, InterruptedException{
-        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        System.out.println("");
-        System.out.print(" ██████╗ ███████╗███████╗██████╗ ██████╗  ██████╗  ██████╗██╗  ██╗\n" +
-                " ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝\n" +
-                " ██████╔╝█████╗  █████╗  ██████╔╝██║  ██║██║   ██║██║     █████╔╝ \n" +
-                " ██╔═══╝ ██╔══╝  ██╔══╝  ██╔══██╗██║  ██║██║   ██║██║     ██╔═██╗ \n" +
-                " ██║     ███████╗███████╗██║  ██║██████╔╝╚██████╔╝╚██████╗██║  ██╗\n" +
-                " ╚═╝     ╚══════╝╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝  ╚═════╝╚═╝  ╚═╝\n" +
-                "\n");
-    }
-
-    private static void help(){
-        System.out.println(">> java -jar Peerdock.jar [OPTION] [ARGS]\n");
-        System.out.println("|------------|--------------------|---------------------|");
-        System.out.println("|  OPTIONS   |        ARGS        |       UTILITY       |");
-        System.out.println("|------------|--------------------|---------------------|");
-        System.out.println("| install    |   packages, libs   | install packages    |");
-        System.out.println("| remove     |   packages, libs   | Remove a packages   |");
-        System.out.println("| update     |   - no arguments   | update package list |");
-        System.out.println("| uninstall  |   - no arguments   | delete Peerdock dir |");
-        System.out.println("| source     |   URL XML source   | add package list    |");
-        System.out.println("| list       |   - no arguments   | list installed pkgs |");
-        System.out.println("| slist      |   - no arguments   | list available pkgs |");
-        System.out.println("| credit     |   - no arguments   | Peerdock credits    |");
-        System.out.println("|------------|--------------------|---------------------|");
-    }
-    private static void credit(){
-        System.out.println("Peerdock is a software developed by Victor Lourme");
-        System.out.println("Please take care of sources and use trusted repositories.");
-        System.out.println("We are not responsible of malwares, hacks or others viruses.\n");
-        System.out.println("Website : https://www.peerdock.co");
-        System.out.println("Trusted sources : https://packages.peerdock.co\n");
-        System.out.println("Source, repository means a list of packages in XML.");
     }
 }
