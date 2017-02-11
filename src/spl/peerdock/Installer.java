@@ -17,6 +17,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.util.spi.LocaleNameProvider;
 
 class Installer {
     public static Boolean error = null;
@@ -54,7 +55,7 @@ class Installer {
                 if(!f.exists()) {
                     Boolean result = f.mkdir();
                     if(!result){
-                        System.out.println("<+> Error ! Can't make " + name + " folder in Peerdock folder.");
+                        System.out.println("<+> " + Language.lang.get("init-folder-error"));
                     }
                 }
 
@@ -68,7 +69,7 @@ class Installer {
                     fos.close();
                     finish = true;
                 } catch (IOException e){
-                    System.out.println("<!> Error : " + e.getMessage());
+                    System.out.println("<!> " + Language.lang.get("error") + e.getMessage());
                 }
 
                 if(unzip.equalsIgnoreCase("true")) {
@@ -95,12 +96,12 @@ class Installer {
                     File tmp = new File("/Peerdock/" + name + "/" + name + extension);
                     Boolean rsp = tmp.delete();
                     if(!rsp){
-                        System.out.println("<!> Error ! Temporary file was not removed.");
+                        System.out.println("<!> " + Language.lang.get("tmprm-error"));
                     }
                 }
 
-                System.out.println("\n<+> " + name + " was installed !");
-                System.out.println("<+> Find it into /Peerdock/" + name + "/ folder");
+                System.out.println("\n<+> " + name + Language.lang.get("installed"));
+                System.out.println("<+> " + Language.lang.get("folder-installed") + " /Peerdock/" + name + "/ folder");
             }
         });
 
@@ -111,7 +112,7 @@ class Installer {
                 int x = 0;
                 while (!finish) {
                     long estimatedTime = System.currentTimeMillis() - startTime;
-                    String time = String.format("%d hours, %d min, %d sec",
+                    String time = String.format("%d " + Language.lang.get("hours") + ", %d " + Language.lang.get("minutes") + ", %d " + Language.lang.get("seconds"),
                             TimeUnit.MILLISECONDS.toHours(estimatedTime),
                             TimeUnit.MILLISECONDS.toMinutes(estimatedTime),
                             TimeUnit.MILLISECONDS.toSeconds(estimatedTime) -
@@ -121,7 +122,7 @@ class Installer {
                     try {
                         Long size = fos.getChannel().size();
                         String position = humanReadableByteCount(size, true);
-                        data = "\r" + "<+> Downloading... " + anim.charAt(x % anim.length()) + " [" + time + "] " + position;
+                        data = "\r" + "<+> " + Language.lang.get("downloading") + anim.charAt(x % anim.length()) + " [" + time + "] " + position;
                     } catch (Exception e){
                         /*
                         DISABLED : Echo null for download size progress
@@ -140,7 +141,7 @@ class Installer {
                         Thread.sleep(50);
                         x++;
                     } catch (Exception a) {
-                        System.out.println("<!> Error : " + a.getMessage());
+                        System.out.println("<!> " + Language.lang.get("error") + a.getMessage());
                     }
                 }
             }
@@ -153,14 +154,14 @@ class Installer {
             download.join();
             animation.join();
         } catch (InterruptedException e) {
-            System.out.println("<!> Error : " + e.getMessage());
+            System.out.println("<!> Error : " + Language.lang.get("error") + e.getMessage());
         }
     }
 
     void install(String ipkg) throws Exception{
         File xmlPath = new File("/Peerdock/Sources/spkg-peerdock.xml");
         if(!xmlPath.exists()){
-            System.out.println("<!> Error ! Please provide a source.xml");
+            System.out.println("<!> " + Language.lang.get("no-xml"));
             System.exit(1);
         }
 
@@ -176,12 +177,12 @@ class Installer {
 
         // Testing if all packages exists...
         if (pkg.element(ipkg) == null) {
-            System.out.println("<!> Error ! Can't find " + ipkg);
+            System.out.println("<!> " + Language.lang.get("install-not-exists") + ipkg);
             System.exit(1);
         }
 
         // Checking errors
-        System.out.print("<+> Package exists ! Install [Y/N] +> ");
+        System.out.print("<+> " + Language.lang.get("package-exists-install"));
         Scanner in = new Scanner(System.in);
         if (in.next().equalsIgnoreCase("y")) {
             cont = true;
@@ -219,7 +220,7 @@ class Installer {
                 try {
                     hp = new URL(url);
                 } catch (Exception e) {
-                    System.out.println("<!> Error : " + e.getMessage());
+                    System.out.println("<!> " + Language.lang.get("error") + e.getMessage());
                 }
 
                 String tr_url = url;
@@ -228,22 +229,22 @@ class Installer {
                 }
 
                 pkgz = ((Installer.getFileSize(hp) / 1000) / 1000);
-                System.out.println("\n<+> Installing " + ipkg);
-                System.out.println(" |> Version : " + version);
-                System.out.println(" |> Size : " + pkgz + "Mb");
-                System.out.println(" |> Source : " + tr_url);
+                System.out.println("\n<+> " + Language.lang.get("installing") + ipkg);
+                System.out.println(" |> " + Language.lang.get("version") + version);
+                System.out.println(" |> " + Language.lang.get("size") + pkgz + "Mb");
+                System.out.println(" |> " + Language.lang.get("from-source") + tr_url);
                 if(note != null) {
-                    System.out.println(" |> Note : " + note);
+                    System.out.println(" |> " + Language.lang.get("note") + note);
                 }
                 if(Main.is64bit){
-                    System.out.println(" |> Arch : 64-bit");
+                    System.out.println(" |> " + Language.lang.get("arch") +" : 64-bit");
                 } else {
-                    System.out.println(" |> Arch : 32-bit");
+                    System.out.println(" |> " + Language.lang.get("arch") +" : 32-bit");
                 }
-                System.out.println(" |> Unpack : " + unzip);
+                System.out.println(" |> " + Language.lang.get("unzip") + unzip);
                 download(url, ipkg, unzip);
                 if(website != null) {
-                    System.out.print("<+> Visit provider website ? [Y/N] +> ");
+                    System.out.print("<+> " + Language.lang.get("provider-website"));
                     if (in.next().equalsIgnoreCase("y")) {
                         Desktop.getDesktop().browse(new URL(website).toURI());
                     }

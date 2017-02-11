@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main {
 
     static boolean is64bit;
-    static String version = "17.4";
+    static String version = "17.4.1";
     static String update_url = "https://www.peerdock.co/update";
 
     public static void main(String args[]) throws Exception {
@@ -34,36 +34,34 @@ public class Main {
             }
         }
 
+        Language.set();
         menu();
     }
 
     public static void header() throws Exception{
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         System.out.println("");
-        System.out.println("   ▄███████▄    ▄████████    ▄████████    ▄████████  ███████▄   ▄██████▄   ▄████████    ▄█   ▄█▄ \n" +
-                "   ███    ███   ███    ███   ███    ███   ███    ███ ███   ▀███ ███    ███ ███    ███   ███ ▄███▀ \n" +
-                "   ███    ███   ███    █▀    ███    █▀    ███    ███ ███    ███ ███    ███ ███    █▀    ███ ██▀   \n" +
-                "   ███    ███  ▄███▄▄▄      ▄███▄▄▄      ▄███▄▄▄▄██▀ ███    ███ ███    ███ ███         ▄█████▀    \n" +
-                " ▀█████████▀  ▀▀███▀▀▀     ▀▀███▀▀▀     ▀▀███▀▀▀▀▀   ███    ███ ███    ███ ███        ▀▀█████▄    \n" +
-                "   ███          ███    █▄    ███    █▄  ▀███████████ ███    ███ ███    ███ ███    █▄    ███ ██▄   \n" +
-                "   ███          ███    ███   ███    ███   ███    ███ ███   ▄███ ███    ███ ███    ███   ███ ▀███▄ \n" +
-                "  ▄████▀        ██████████   ██████████   ███    ███ ████████▀   ▀██████▀  ████████▀    ███   ▀█▀ \n" +
-                "                                          ███    ███                                    ▀         "
-        );
+        System.out.println("          _          _            _            _          _            _             _             _        \n" +
+                "         /\\ \\       /\\ \\         /\\ \\         /\\ \\       /\\ \\         /\\ \\         /\\ \\           /\\_\\      \n" +
+                "        /  \\ \\     /  \\ \\       /  \\ \\       /  \\ \\     /  \\ \\____   /  \\ \\       /  \\ \\         / / /  _   \n" +
+                "       / /\\ \\ \\   / /\\ \\ \\     / /\\ \\ \\     / /\\ \\ \\   / /\\ \\_____\\ / /\\ \\ \\     / /\\ \\ \\       / / /  /\\_\\ \n" +
+                "      / / /\\ \\_\\ / / /\\ \\_\\   / / /\\ \\_\\   / / /\\ \\_\\ / / /\\/___  // / /\\ \\ \\   / / /\\ \\ \\     / / /__/ / / \n" +
+                "     / / /_/ / // /_/_ \\/_/  / /_/_ \\/_/  / / /_/ / // / /   / / // / /  \\ \\_\\ / / /  \\ \\_\\   / /\\_____/ /  \n" +
+                "    / / /__\\/ // /____/\\    / /____/\\    / / /__\\/ // / /   / / // / /   / / // / /    \\/_/  / /\\_______/   \n" +
+                "   / / /_____// /\\____\\/   / /\\____\\/   / / /_____// / /   / / // / /   / / // / /          / / /\\ \\ \\      \n" +
+                "  / / /      / / /______  / / /______  / / /\\ \\ \\  \\ \\ \\__/ / // / /___/ / // / /________  / / /  \\ \\ \\     \n" +
+                " / / /      / / /_______\\/ / /_______\\/ / /  \\ \\ \\  \\ \\___\\/ // / /____\\/ // / /_________\\/ / /    \\ \\ \\    \n" +
+                " \\/_/       \\/__________/\\/__________/\\/_/    \\_\\/   \\/_____/ \\/_________/ \\/____________/\\/_/      \\_\\_\\   \n" +
+                "                                                                                                            \n");
     }
 
     private static void credit(){
-        System.out.println("\nPeerdock is a software developed by Victor Lourme");
-        System.out.println("Please take care of sources and use trusted repositories.");
-        System.out.println("We are not responsible of malwares, hacks or others viruses.\n");
-        System.out.println("Website : https://www.peerdock.co");
-        System.out.println("Trusted sources : https://packages.peerdock.co\n");
-        System.out.println("Source, repository means a list of packages in XML.");
+        System.out.println(Language.lang.get("credit"));
     }
 
     public static void next()
     {
-        System.out.println("\n--> Press [enter] to continue...");
+        System.out.println(Language.lang.get("continue"));
         try
         {
             System.in.read();
@@ -76,26 +74,26 @@ public class Main {
     public static void menu() throws Exception{
         header();
         Scanner in = new Scanner(System.in);
-        System.out.println("--> Welcome in Peerdock " + version + "\n");
+        System.out.println(Language.lang.get("header.1"));
 
-        System.out.println("═╗ 1. Install package");
-        System.out.println(" ║ 2. Remove package");
-        System.out.println(" ║ 3. Replace actual source");
-        System.out.println(" ║ 4. Update actual source");
-        System.out.println(" ║ 5. List sources available");
-        System.out.println(" ║ 6. List installed package(s)");
-        System.out.println(" ║ 7. List available package(s) in actual source");
-        System.out.println(" ║ 8. Show credits");
-        System.out.println(" ║ 9. Check for Peerdock update");
-        System.out.println("═╝ 10. Exit program\n");
+        System.out.println("═╗ 1. " + Language.lang.get("install"));
+        System.out.println(" ║ 2. " + Language.lang.get("remove"));
+        System.out.println(" ║ 3. " + Language.lang.get("replace"));
+        System.out.println(" ║ 4. " + Language.lang.get("update"));
+        System.out.println(" ║ 5. " + Language.lang.get("list-sources"));
+        System.out.println(" ║ 6. " + Language.lang.get("list-installed"));
+        System.out.println(" ║ 7. " + Language.lang.get("list-available"));
+        System.out.println(" ║ 8. " + Language.lang.get("show-credit"));
+        System.out.println(" ║ 9. " + Language.lang.get("check-update"));
+        System.out.println("═╝ 10. " + Language.lang.get("close") + "\n");
 
-        System.out.print("--> Select a option : ");
+        System.out.print("--> " + Language.lang.get("option"));
         int option = in.nextInt();
 
         switch (option) {
             default:
                 header();
-                System.out.println("--> Please type a correct option (between 1 and 8)");
+                System.out.println("--> " + Language.lang.get("option-unselected"));
                 next();
                 menu();
                 break;
@@ -119,7 +117,7 @@ public class Main {
                 break;
             case 1:
                 header();
-                System.out.print("--> Type package to install : ");
+                System.out.print("--> " + Language.lang.get("install-selector"));
                 String i = in.next();
                 header();
                 Installer installation = new Installer();
@@ -129,7 +127,7 @@ public class Main {
                 break;
             case 2:
                 header();
-                System.out.print("--> Type package to remove : ");
+                System.out.print("--> " + Language.lang.get("remove-selector"));
                 String r = in.next();
                 header();
                 Package.remove(r);
@@ -138,7 +136,7 @@ public class Main {
                 break;
             case 3:
                 header();
-                System.out.println("--> Type your source : ");
+                System.out.println("--> " + Language.lang.get("replace-selector"));
                 System.out.print("--> ");
                 String so = in.next();
                 header();
