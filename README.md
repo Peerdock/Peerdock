@@ -13,7 +13,7 @@
   <code>
   author: <b><i>Spl/0/it</i></b>
   </code>
-  <br>
+  <br><br>
   <p><i><b>What's Peerdock ?</b></i></p>
   <blockquote>
   Peerdock is a free &amp; open source project that can be used to download and share software over our network !
