@@ -1,13 +1,14 @@
 package spl.peerdock;
 
 import java.io.*;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
 
     static boolean is64bit;
     static String version = "17.4.1";
-    static String update_url = "https://www.peerdock.co/update";
+    static String update_url = "https://update.peerdock.co/";
 
     public static void main(String args[]) throws Exception {
         if (System.getProperty("os.name").contains("Windows")) {
@@ -85,7 +86,8 @@ public class Main {
         System.out.println(" ║ 7. " + Language.lang.get("list-available"));
         System.out.println(" ║ 8. " + Language.lang.get("show-credit"));
         System.out.println(" ║ 9. " + Language.lang.get("check-update"));
-        System.out.println("═╝ 10. " + Language.lang.get("close") + "\n");
+        System.out.println(" ║ 10. " + Language.lang.get("change-language"));
+        System.out.println("═╝ 11. " + Language.lang.get("close") + "\n");
 
         System.out.print("--> " + Language.lang.get("option"));
         int option = in.nextInt();
@@ -145,6 +147,12 @@ public class Main {
                 menu();
                 break;
             case 10:
+                header();
+                Language.change();
+                next();
+                System.exit(1);
+                break;
+            case 11:
                 System.exit(1);
                 break;
             case 8:
