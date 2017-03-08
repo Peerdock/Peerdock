@@ -10,9 +10,6 @@
   <code>
   last-version: <b><i>17.4.1</i></b>
   </code>
-  <code>
-  author: <b><i>Spl/0/it</i></b>
-  </code>
   <br><br>
   <p><i><b>What's Peerdock ?</b></i></p>
   <blockquote>
@@ -34,7 +31,6 @@
   - Contribute to the code (do pull requests) <br />
   - Buy me a coffee : <br />
     &nbsp;- Bitcoin : <i>14y4nZS93kQsyPx2ecZ6izuumLxBr388vs</i><br />
-    &nbsp;- PayPal : vlourme@outlook.fr
   </blockquote>
   <p><i><b>Visit our website now : <a href="https://www.peerdock.co">Peerdock.co</a></b></i></p>
   
